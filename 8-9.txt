@@ -1,0 +1,139 @@
+起点：index.php
+文件加载自动加载器。
+Laravel 本身采取的第一个动作是创建一个 application/ service container 的实例
+
+http内核
+HTTP 内核继承了 Illuminate\Foundation\Http\Kernel 类，它定义了在执行请求之前运行的 bootstrappers 数组。这个数组负责在实际处理请求之前完成这些内容：配置错误处理、配置日志记录、检测应用程序环境 以及执行其他需要完成的任务。
+handle方法：请求 接收
+
+服务提供器
+应用程序的所有服务提供器都在 config/app.php
+服务提供器负责引导所有框架的各种组件，如数据库、队列、验证和路由组件。也就是说，框架提供的每个功能都它们来引导并配置
+
+分配请求
+
+/********************************************/
+
+1.在routes/web.php 下配置路由 Route::get('路径', '控制器名@操作名');
+2.使用 php artisan make:controller 控制器名 自动在Http/Controllers/下面生成控制器
+3.在控制器中可以使用 return view('views文件夹后的路径名');
+4.在views下可以创建 layouts/default.blade.php 用于继承    
+	@yield('title', 'Sample App')
+  创建static_pages/xxx.blade.php 继承default   
+  	@extends('layouts.default')  
+
+  	@section('content') 
+  	@stop
+
+/******************************************/
+
+美化界面
+
+laravel继承默认的扩展包
+	bootstrap-sass —— Bootstrap NPM 扩展包；
+	jquery —— jQuery NPM 扩展包；
+	laravel-mix —— 由 Laravel 官方提供的静态资源管理工具；
+	vue —— VUE.js 前端框架；
+
+
+使用yarn 安装扩展包
+1.安装yarn
+2.resources/assets/sass/app.scss下面import
+	@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+3.在虚拟机中执行  $ npm run watch-poll  
+在每次检测到 .scss 文件发生更改时，自动将其编译为 .css 文件 存放在public/css/app.css
+4.在views/static_pages/xx.blade.php下 <link rel="stylesheet" href="/css/app.css">
+
+
+Laravel Mix 一款前端任务自动化管理工具，使用了工作流的模式对制定好的任务依次执行。Mix 提供了简洁流畅的 API，让你能够为你的 Laravel 应用定义 Webpack 编译任务。Mix 支持许多常见的 CSS 与 JavaScript 预处理器，通过简单的调用，你可以轻松地管理前端资源----------> $ npm run watch-poll 
+
+
+局部视图
+在layouts中创建_footer.blade.php,_header.blade.php
+default.blade.php用@include('局部视图名');
+
+
+{{　}} 是在 HTML 中内嵌 PHP 的 Blade 语法标识符
+在 Laravel 中，我们可以通过在路由后面链式调用 name 方法来为路由指定名称：
+	Route::get('/help', 'StaticPagesController@help')->name('help');
+	之后可以在blade页面中使用{{ route('help') }}
+
+/*****************************************************/
+
+Git鼓励大量使用分支：
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+/####################################################/
+php artisan make:model Models/Article -m 生成模型并生成迁移文件
+
+默认数据库迁移文件在 database/migrations里 里面有如何配置数据表
+创建数据表 
+回滚迁移数据表
+
+php artisan migrate 进行数据迁移
+	我们一开始在创建 sample 项目时，已经为其创建了数据库，并在 .env 文件中做了配置，所以这里会直接使用这些数据库设置。
+php artisan migrate:rollback 回滚
+
+在app/Models/Article中:
+	protected $table='db_name';//指定自定义的数据表
+	public $incrementing = false;//
+	protected $keyType = string;
+	public $timestamps = false;
+
+	const CREATED_AT = 'creation_date';
+    const UPDATED_AT = 'last_update';自定义用于存储时间戳的字段名
+
+使用Tinker创建用户对象
+	php artisan tinker
+创建:
+	App\Models\User::create(['name'=> 'Aufree', 'email'=>'aufree@yousails.com','password'=>bcrypt('password')]);
+	注:这里应在模型类中有 protected $filled(['name', 'email', 'password']);否则会应为字段的保护而无法插入数据表
+查询:
+	>>> User::first()
+	>>> User::all()
+	>>> User::find(1)
+更新:(两种:1.先查询,后修改,再save 2.update方法)
+	>>> $user = User::first()
+	>>> $user->name = 'change'
+	>>> $user->save()
+
+	>>> $user->update(['key'=>'value'])
+
+/**********************************************/
+
+用户资源
+
+Route::resource('users', 'UsersController');
+相当于:
+Route::get('/users', 'UsersController@index')->name('users.index');
+Route::get('/users/{user}', 'UsersController@show')->name('users.show');
+Route::get('/users/create', 'UsersController@create')->name('users.create');
+Route::post('/users', 'UsersController@store')->name('users.store');
+Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
+Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
+Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
+
+在web.php中设置中设置用户资源后
+在控制器类下:
+	public function show(User $user){
+    	return view('users.show', compact('user'));//compact转换成关联数组
+    }
+在视图下:
+	{{ $userss->name }}{{ $userss->email }}
+
+/##############################################/
+$ php artisan migrate:refresh   作用是重置数据库并重新运行所有迁移。
+
+Laravel 提供了全局辅助函数 old 来帮助我们在 Blade 模板中显示旧输入数据。这样当我们信息填写错误，页面进行重定向访问时，输入框将自动填写上最后一次输入过的数据。
+
