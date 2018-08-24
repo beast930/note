@@ -20,3 +20,4 @@ git remote rm origin
    2). 如果匹配后两个值完全一致，会创建一个『会话』给通过认证的用户。会话在创建的同时，(我在github上修改了.....)
  * 也会种下一个名为 laravel_session 的 HTTP Cookie，以此 Cookie 来记录用户登录状态，最终返回 true
  */
+(这里我又在github修改了)
