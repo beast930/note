@@ -39,6 +39,7 @@ DB_PASSWORD=secret
 $ php artisan migrate
 进行数据库迁移，如果有seeder的话，运行
 
+$ composer dump-autoload
 $ php artisan db:seed
 进行seeding即可。
 
