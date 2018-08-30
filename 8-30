@@ -1,0 +1,13 @@
+str_pad()  字符串填充
+date_create() & date_diff() 创建日期对象以及日期对象的比较   可以使用'>' ,'<' 等直接判断日期对象
+abs() 取绝对值
+
+$user = User::firstOrCreate(
+    ['name' => 'phphub-monkey'],
+    [
+        'email' => 'jin114001251@gmail.com',
+        'avatar' => 'http://....',
+        'gender' => 'male',
+    ]
+]);
+这样一来，程序只会查询 name 为 phphub-monkey 的数据是否存在，如果不存在，才将 name, email, avatar, gender 数据一并生成。
