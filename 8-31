@@ -1,0 +1,6 @@
+渴求式加载
+
+UserHoliday::with(['holidayConfig' => function($query){
+            $query->where('apply_type_id', '>', 1);
+        }])->get();
+打印SQL语句后
