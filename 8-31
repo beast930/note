@@ -1,6 +1,68 @@
+说明:  userHoliday hasOne holidayConfig
+
+
 渴求式加载
 
 UserHoliday::with(['holidayConfig' => function($query){
             $query->where('apply_type_id', '>', 1);
         }])->get();
 打印SQL语句后
+0 => "select * from `users_holiday`"
+1 => "select * from `users_holiday_config` where `users_holiday_config`.`holiday_id` in (?, ?) and `apply_type_id` > ?"
+
+所以with方法中的数组,键作为要关联的表,函数作为对关联表的筛选,where字段为关联表的字段, 但是想要通过这样来筛选users_holiday是做不到的,只能对关联表的
+查询内容做筛选
+
+
+懒惰式渴求加载
+            $obs = UserHoliday::all();
+            $obs->load('holidayConfig');
+与渴求式加载差不多
+只是前面已经执行一次全部查询后可以使用他进行渴求式查找
+
+
+has
+            UserHoliday::has('holidayConfig')->get();
+sql语句:
+            select * from `users_holiday` where exists 
+            (select * from `users_holiday_config` where `users_holiday`.`holiday_id` = `users_holiday_config`.`holiday_id`)
+
+再如:
+            UserHoliday::has('holidayConfig', '>=', 3)->get();
+sql语句:
+            select * from `users_holiday` where 
+            (select count(*) from `users_holiday_config` where `users_holiday`.`holiday_id` = `users_holiday_config`.`holiday_id`) >= 3
+每次取出数据与其他表进行关联,若数量大于3则该条数据被查出 (获取用户假期匹配三条假期配置的数据,显然这是不可能的)
+获取父查询的holiday_id值,放在子查询中进行条件的筛选
+
+whereHas
+            UserHoliday::whereHas('holidayConfig', function ($query){
+                        $query->where('apply_type_id', 1);
+                    })->get();
+sql语句:
+            select * from `users_holiday` where exists 
+            (select * from `users_holiday_config` where `users_holiday`.`holiday_id` = `users_holiday_config`.`holiday_id` 
+            and `apply_type_id` = ?) 
+            
+            
+触发父级时间戳
+            protected $touches = ['post'];//可以在子级被修改时同时修改父级的时间戳
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
