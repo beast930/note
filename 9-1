@@ -1,0 +1,6 @@
+where可以传递数组
+
+->where([
+            ['year', '>=', $year],
+            ['month', '>=', $month]
+        ])
