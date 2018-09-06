@@ -47,6 +47,8 @@ class AttendanceServiceProvider extends ServiceProvider
     }
 }
 
-4.将AttendanceServiceFacade类在config/app下配置
+4.在config/app下配置
 'providers' => [App\Providers\AttendanceServiceProvider::class,....]
 'aliases' => ['AttendanceService' => App\Components\AttendanceService\AttendanceServiceFacade::class,....]
+
+遍历并实现服务提供者并调用register()函数完成绑定
