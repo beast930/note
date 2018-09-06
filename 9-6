@@ -1,0 +1,52 @@
+使用facade方法:
+namespace App\Components\AttendanceService;
+
+1.先写出具体要实现的类
+class AttendanceService
+{
+    public function driver(string $driver)
+    {
+        ....
+    }
+}
+
+2.继承facade类实现getFacadeAccessor()方法
+namespace App\Components\AttendanceService;
+
+class AttendanceServiceFacade extends \Illuminate\Support\Facades\Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'attendanceservice';
+    }
+}
+
+3.将第二步的字符串使用单例模式转换为特定的类
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AttendanceServiceProvider extends ServiceProvider
+{
+    protected $defer = true;
+    public function boot()
+    {
+        //
+    }
+    //重点为这个方法
+    public function register()
+    {
+        $this->app->singleton(
+            'attendanceservice',
+            'App\Components\AttendanceService\AttendanceService'
+        );
+    }
+    public function provides()
+    {
+        return ['attendanceservice'];
+    }
+}
+
+4.将AttendanceServiceFacade类在config/app下配置
+'providers' => [App\Providers\AttendanceServiceProvider::class,....]
+'aliases' => ['AttendanceService' => App\Components\AttendanceService\AttendanceServiceFacade::class,....]
