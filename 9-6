@@ -28,6 +28,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AttendanceServiceProvider extends ServiceProvider
 {
+    //这里为true启用缓载服务提供者,在需要的时候才进行临时绑定, 而且还需使用provides()函数返回提供服务的名称
     protected $defer = true;
     public function boot()
     {
