@@ -63,6 +63,12 @@ public function __construct(EventPusher $pusher)
     $this->pusher = $pusher;
 }
 2.在provider里面的register()方法绑定
-$this->app->bind('App\Contracts\EventPusher', 'App\Services\PusherEventPusher'或进行回调函数);
+$this->app->bind('App\Contracts\EventPusher', 'App\Services\PusherEventPusher'或进行回调函数);//可以在已经弄好的AppProvider中进行配置
 
 在初始化时,需要EventPusher时会注入PusherEventPusher,从而实现了初始化了 $this->pusher
+
+/*********************************************/
+
+正向代理中，代理和客户端同属一个 LAN，对服务端透明；
+反向代理中，代理和服务端同属一个 LAN，对客户端透明。
+或者，还有一句精辟的顺口溜：正向代理代理客户端，反向代理代理服务器。
