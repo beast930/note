@@ -53,3 +53,16 @@ class AttendanceServiceProvider extends ServiceProvider
 'aliases' => ['AttendanceService' => App\Components\AttendanceService\AttendanceServiceFacade::class,....]
 
 遍历并实现服务提供者并调用register()函数完成绑定
+
+/*********************************************/
+使用服务容器container
+
+1.实现本类
+public function __construct(EventPusher $pusher)
+{
+    $this->pusher = $pusher;
+}
+2.在provider里面的register()方法绑定
+$this->app->bind('App\Contracts\EventPusher', 'App\Services\PusherEventPusher');
+
+在初始化时,需要EventPusher时会注入PusherEventPusher,从而实现了初始化了 $this->pusher
