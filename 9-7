@@ -7,3 +7,22 @@ Spring所倡导的开发方式就是如此，所有的类都会在spring容器�
 IoC的一个重点是在系统运行中，动态的向某个对象提供它所需要的其他对象。这一点是通过DI（Dependency Injection，依赖注入）来实现的。
 
 所以控制反转IoC(Inversion of Control)是说创建对象的控制权进行转移，以前创建对象的主动权和创建时机是由自己把控的，而现在这种权力转移到第三方
+
+/******************************************************/
+$request->input()//将输入的所有数据
+$request->all()//输入数据与文件
+$request->query()//相当于$_GET
+
+flash/ flashOnly/ flashExcept
+redirect()->back()->withInput('XXXXX')
+return redirect('dashboard')->with('status', 'Profile updated!');
+
+$request->old()
+
+重定向到命名路由
+如果调用不带参数的 redirect 方法，会返回一个 Illuminate\Routing\Redirector 实例，然后就可以调用Redirector实例上的所有方法。例如，要生成一个  RedirectResponse 到命名路由，可以使用 route 方法：
+
+return redirect()->route('login');
+return redirect()->route('profile', ['id'=>1]);
+return redirect()->action('UserController@profile', ['id'=>1]);
+
