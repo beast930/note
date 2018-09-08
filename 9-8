@@ -1,3 +1,7 @@
 {!! Form::open(['route'=>'projects.store', 'method'=>'post', 'files'=>true]) !!}
 上传文件用'files'
 提交路径有 'route', 'url'
+
+artisan make:request CreateProjectRequest
+在rules方法下编写相关方法
+使用依赖注入public function store(CreateProjectRequest $request)
