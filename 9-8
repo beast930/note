@@ -5,3 +5,14 @@
 artisan make:request CreateProjectRequest
 在rules方法下编写相关方法
 使用依赖注入public function store(CreateProjectRequest $request)
+
+//这里学习了;route,method 在collective中的使用
+'route' => ['tasks.store', 'project' => $project->id, 'a' => 111] http://.....?project=xxx&a=111
+{!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE']) !!}
+    <button type="submit" class="btn">
+        <i class="fa fa-btn fa-close"></i>
+    </button>
+{!! Form::close() !!}
+
+//将$project与表单绑定,在更新的时候会自动填入数据
+{!! Form::model($project, ['route'=>['projects.update', $project->id], 'method'=>'PUT', 'files'=>true]) !!}
