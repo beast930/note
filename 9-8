@@ -16,3 +16,15 @@ artisan make:request CreateProjectRequest
 
 //将$project与表单绑定,在更新的时候会自动填入数据
 {!! Form::model($project, ['route'=>['projects.update', $project->id], 'method'=>'PUT', 'files'=>true]) !!}
+
+//$projects为key=>value的数组, $project->id为select的默认选中的value
+{!! Form::select('projectList', $projects, $project->id, [...]) !!}
+
+$errors->any()   $errors->all()
+$errors->has('name')//若元素名为name的验证出现错误
+$errors->get('name')//返回出错的元素的信息
+
+{!! Form::model($task,....) !!}
+{!! Form::select('projectList', $projects, null, [...]) !!}
+绑定的$task为Task模型,当访问select中的'projectList' 1.考虑之前的数据 2.考虑现有的数据 3.从模型Task调用getProjectListAttribute()方法(获取器)
+返回相应的值
