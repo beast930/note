@@ -1,0 +1,17 @@
+使用composer require 依赖版本名
+或
+
+composer.json文件:
+{
+  "require":{
+    安装的扩展依赖的名字
+  }
+}
+执行composer install进行安装
+
+
+composer install 会先执行composer.lock文件,找不到对应依赖时就执行composer.json文件
+composer update 会先执行composer.json文件,若有则更新composer.lock文件
+
+composer.lock对于团队开发来说至关重要,因为它已经写死了,其他人也会按照这个文件安装与你一模一样的版本
+而composer.json文件中的一些版本号带有'~','^',会带来不确定的版本,不确定的用法
