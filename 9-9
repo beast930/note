@@ -25,3 +25,50 @@ composer.lock对于团队开发来说至关重要,因为它已经写死了,其�
 而composer.json文件中的一些版本号带有'~','^',会带来不确定的版本,不确定的用法
 
 composer创建项目:composer create-project laravel/laravel 项目名 依赖包版本号
+
+//中间件
+artisan make:middleware UserMiddleware
+class UserMiddleware{
+  public handle($request){
+    .....
+  }
+}
+Kernel.php文件配置
+
+//视图绑定变量
+class User{
+  public function getUser(){
+        return Auth::user();
+    }
+}
+在一个文件中
+使用@inject('user', 'App\User')//实例化$user = new User();
+<h1>{{ $user->getUser() }}</h1>//这样当include进来这个文件是不需要传递用户的变量,直接进行include
+
+//event讲解
+在EventServiceProvider中的listen属性
+protected $listen = [
+    'App\Events\UserSignUp' => [
+        'App\Listeners\HandleUserSignUp',
+        //以后可以在这里新增
+    ],
+];
+使用 artisan event:generate //便按照配置生成对应的event与listen
+UserSignUp:
+public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+HandleUserSignUp:
+public function handle(UserSignUp $event)//依赖注入
+    {
+        dd($event->user->name);
+    }
+调用:
+Route::get('/event', function (){
+   $user = \App\User::find(1);
+    event(new \App\Events\UserSignUp($user));
+});
+
+
+
