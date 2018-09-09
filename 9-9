@@ -70,5 +70,33 @@ Route::get('/event', function (){
     event(new \App\Events\UserSignUp($user));
 });
 
+//factories
+boot调用的时候，所有的服务都已经注册完毕，可以放心的使用Laravel中注册的对象，可以调用其它服务
+AppServiceProvider:
+public function boot()
+{
+    $this->app->singleton(Generator::class, function (){
+       return Factory::create('zh_CN');
+    });
+}
+artisan tinker;
+>>>use App;
+>>>factory(User::class, 5)->make()(显示)或者create()(创建)
+
+
+//seed配合factory
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        factory(\App\User::class, 20)->create();
+        $this->call(GradeSeeder::class);
+    }
+}
+
+
+
+
+
 
 
