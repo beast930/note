@@ -26,5 +26,5 @@ $errors->get('name')//返回出错的元素的信息
 
 {!! Form::model($task,....) !!}
 {!! Form::select('projectList', $projects, null, [...]) !!}
-绑定的$task为Task模型,当访问select中的'projectList' 1.考虑之前的数据 2.考虑现有的数据 3.从模型Task调用getProjectListAttribute()方法(获取器)
+绑定的$task为Task模型,当访问select中的'projectList' 1.考虑之前的数据 2.考虑现有的数据 3.以$task->projectList获得数据或从模型Task调用getProjectListAttribute()方法(获取器)
 返回相应的值
