@@ -94,6 +94,16 @@ class DatabaseSeeder extends Seeder
     }
 }
 
+//分页
+paginate(10);//一次获取10条数据
+chunk(3);//这10条数据每次取3条
+
+//ioc工作机制
+先检查是否具有bind绑定,没有进行php的反射机制进行依赖注入
+
+//provider
+register()方法注册 $this->app->singleton('key', function(){return 对象})
+使用app('key')获得对象
 
 
 
