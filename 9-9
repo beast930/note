@@ -6,6 +6,14 @@ composer.json文件:
   "require":{
     安装的扩展依赖的名字
   }
+  'require-dev':{//这里的require-dev是在composer install --no-dev可以标明不安装
+  }
+  'script':{//在执行相关操作时执行Linux脚本语言
+    'post-install-cmd': [echo 'hello world']//执行install操作时,实现输出语句
+    'pre-update-cmd':[]
+    'post-root-package-install':[]
+    'post-create-project-cmd':[]
+  }
 }
 执行composer install进行安装
 
@@ -15,3 +23,5 @@ composer update 会先执行composer.json文件,若有则更新composer.lock文�
 
 composer.lock对于团队开发来说至关重要,因为它已经写死了,其他人也会按照这个文件安装与你一模一样的版本
 而composer.json文件中的一些版本号带有'~','^',会带来不确定的版本,不确定的用法
+
+composer创建项目:composer create-project laravel/laravel 项目名 依赖包版本号
