@@ -1,0 +1,4 @@
+facad运行流程
+以Route:get()为例
+首先Route被变成facade/route 里面只有返回"router"字符串 --> 它继承facade抽象类,有__callStatic() --> 'get'以及参数传递进去,获取"router"并变成app('router')
+--> 服务容器绑定,实例化 --> 得到实例化的类使用get函数
