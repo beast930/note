@@ -1,0 +1,10 @@
+phpstorm
+1.ctrl+f12  在该类查找方法
+2.ctrl+e 最近编辑文件
+3.ctrl+shift+alt+n 在所有文件中查找方法名,类...等 全局搜索
+4.ctrl+shift+a 配置
+5.配置live template
+6.ctrl+alt+l 一键格式代码 (code style)
+7.Refactor -> refactor this 完成代码重构 method, variable, inline
+8. ALT+J(选中) ALT+shift+J(撤销选中) 可以灵活使用多点编辑
+使用alt 加鼠标点击可以多点
