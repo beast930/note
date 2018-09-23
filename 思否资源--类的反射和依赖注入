@@ -1,0 +1,42 @@
+类的反射和依赖注入
+$reflectionClass = new reflectionClass(Circle::class);
+$reflectionClass->getConstants();
+$reflectionClass->getProperties();//属性
+$reflectionClass->getMethods();
+
+$constructor = $reflectionClass->getConstructor();
+$parameters = $constructor->getParameters();//获取构造函数的参数名称
+foreach($parameters as $param) {
+	var_dump($param->getClass());//获取参数的类型
+}
+
+//构建类的对象
+function make($className)
+{
+    $reflectionClass = new ReflectionClass($className);
+    $constructor = $reflectionClass->getConstructor();
+    $parameters  = $constructor->getParameters();
+    $dependencies = getDependencies($parameters);
+    
+    return $reflectionClass->newInstanceArgs($dependencies);
+}
+
+//依赖解析
+function getDependencies($parameters)
+{
+    $dependencies = [];
+    foreach($parameters as $parameter) {
+        $dependency = $parameter->getClass();
+        if (is_null($dependency)) {
+            if($parameter->isDefaultValueAvailable()) {
+                $dependencies[] = $parameter->getDefaultValue();
+            } else {
+                $dependencies[] = '0';
+            }
+        } else {
+            //递归解析出依赖类的对象
+            $dependencies[] = make($parameter->getClass()->name);
+        }
+    }
+    return $dependencies;
+}
