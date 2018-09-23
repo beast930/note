@@ -28,4 +28,4 @@ $request->old()
 return redirect()->route('login');
 return redirect()->route('profile', ['id'=>1]);
 return redirect()->action('UserController@profile', ['id'=>1]);
-
+ 
