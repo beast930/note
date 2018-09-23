@@ -4,4 +4,4 @@ http请求行: GET / HTTP/1.1
   User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36
   Accept: text/html
   
-http响应行: HTTP/1.1 200 OK  
+http响应行: HTTP/1.1 200 OK   
