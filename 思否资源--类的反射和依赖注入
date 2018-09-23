@@ -40,3 +40,16 @@ function getDependencies($parameters)
     }
     return $dependencies;
 }
+
+/*************************************************/
+使用隐式模型绑定
+Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型, 例如:
+Route::Put('api/users/{user}', 'UserController@update');
+class UserController extends Controller
+{
+    public function update(Request $request, User $user)
+    {
+    }
+}
+在这个例子中，由于$user变量被类型提示为 Eloquent 模型 User，变量名称又与 URI 中的 {user} 匹配，
+因此Laravel 会自动注入与请求 URI 中传入的 ID 匹配的用户模型实例。如果在数据库中找不到对应的模型实例，将会抛出ModelNotFound异常
