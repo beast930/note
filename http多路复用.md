@@ -17,7 +17,7 @@ Keep-Alive解决的核心问题：一定时间内，同一域名多次请求数�
 ![image](https://segmentfault.com/img/bVUSLx?w=562&h=375)
 
 ### 所以多路复用:
-（一个域只要一个TCP连接）实现真正的并发请求，降低延时，提高了带宽的利用率。
+在结合了keep-alive的只需一次连接以及以流的形式传输,实现了:一个域只要一个TCP连接实现真正的并发请求，降低延时，提高了带宽的利用率。
 
 
 [摘自:https://segmentfault.com/a/1190000011172823](https://segmentfault.com/a/1190000011172823)
