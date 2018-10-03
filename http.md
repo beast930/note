@@ -91,7 +91,7 @@ User-Agent: Mozilla/5.0 ...
 
 ### JSON Web Token(JWT)
 * 应用和数据库核对用户名和密码
-* 核对用户名和密码成功后，应用将用户的id作为JWT Payload的一个属性，将其与头部分别进行Base64编码拼接后签名，形成一个JWT。
+* 核对用户名和密码成功后，应用将用户的id作为JWT Payload的一个属性，将其与头部分别进行Base64编码拼接后签名，形成一个JWT。(这里的头部为JWT的头部)
 * 将JWT字符串作为该请求Cookie的一部分返回给用户。注意，在这里必须使用HttpOnly属性来防止Cookie被JavaScript读取
 * 在Cookie失效或者被删除前，用户每次访问应用，应用都会接受到含有jwt的Cookie。从而应用就可以将JWT从请求中提取出来
 * 当从客户端带过来token参数的时候，直接对头部和Payload再次调用加密算法，看生成的新的签名和之前的签名是否一致，判断数据是否被篡改。
@@ -110,5 +110,7 @@ Session方式来存储用户id，一开始用户的Session只会存储在一台�
 Set-Cookie: jwt=lll.zzz.xxx; HttpOnly; max-age=980000; domain=.taobao.com
 ```
 注意domain必须设置为一个点加顶级域名，即.taobao.com。这样，taobao.com和*.taobao.com就都可以接受到这个Cookie，并获取JWT了。
+
+[摘自](http://blog.leapoahead.com/2015/09/07/user-authentication-with-jwt/)
 
 
