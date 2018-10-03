@@ -89,3 +89,26 @@ User-Agent: Mozilla/5.0 ...
 > * 第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。
 > * 第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。
 
+### JSON Web Token(JWT)
+* 应用和数据库核对用户名和密码
+* 核对用户名和密码成功后，应用将用户的id作为JWT Payload的一个属性，将其与头部分别进行Base64编码拼接后签名，形成一个JWT。
+* 将JWT字符串作为该请求Cookie的一部分返回给用户。注意，在这里必须使用HttpOnly属性来防止Cookie被JavaScript读取
+* 在Cookie失效或者被删除前，用户每次访问应用，应用都会接受到含有jwt的Cookie。从而应用就可以将JWT从请求中提取出来
+* 当从客户端带过来token参数的时候，直接对头部和Payload再次调用加密算法，看生成的新的签名和之前的签名是否一致，判断数据是否被篡改。
+
+### 单点登录
+Session方式来存储用户id，一开始用户的Session只会存储在一台服务器上。对于有多个子域名的站点，每个子域名至少会对应一台不同的服务器，例如：
+* www.taobao.com
+* nv.taobao.com
+* nz.taobao.com
+* login.taobao.com
+
+所以如果要实现在login.taobao.com登录后，在其他的子域名下依然可以取到Session，这要求我们在多台服务器上同步Session。
+
+使用JWT的方式则没有这个问题的存在，因为用户的状态已经被传送到了客户端。因此，我们只需要将含有JWT的Cookie的domain设置为顶级域名即可，例如
+``` 
+Set-Cookie: jwt=lll.zzz.xxx; HttpOnly; max-age=980000; domain=.taobao.com
+```
+注意domain必须设置为一个点加顶级域名，即.taobao.com。这样，taobao.com和*.taobao.com就都可以接受到这个Cookie，并获取JWT了。
+
+
