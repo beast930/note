@@ -130,6 +130,7 @@ Set-Cookie: jwt=lll.zzz.xxx; HttpOnly; max-age=980000; domain=.taobao.com
 #### CSRF和XSS区别
 >* CSRF是利用你本身的漏洞，自动执行你本身的接口，依赖于用户需要登录你的网站。
 >* XSS不需要做任何登录认证，核心原理是向你的页面注入脚本js，js里包含他想执行的操作（通过合法的评论区注入不可执行的JS)  
+
 可以先进行xss攻击嵌入html样式,在进行csrf攻击携带危险信息 连环攻击一气呵成
 
 
