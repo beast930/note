@@ -122,8 +122,8 @@ Set-Cookie: jwt=lll.zzz.xxx; HttpOnly; max-age=980000; domain=.taobao.com
 #### 攻击防范 token&referer
 > referer 验证  
 > 根据HTTP协议,在http请求头中包含一个referer的字段,这个字段记录了该http请求的原地址.通常情况下,执行转账操作的post请求www.bank.com/transfer.php应该是点击www.bank.com网页的按钮来触发的操作,这个时候转账请求的referer应该是www.bank.com.而如果黑客要进行csrf攻击,只能在自己的网站www.hacker.com上伪造请求.伪造请求的referer是www.hacker.com.所以我们通过对比post请求的referer是不是www.bank.com就可以判断请求是否合法.  
-
-这种方式验证比较简单,网站开发者只要在post请求之前检查referer就可以,但是由于referer是由浏览器提供的.虽然http协议有要求不能篡改referer的值.但是一个网站的安全性绝对不能交由其他人员来保证.  
+>
+> 这种方式验证比较简单,网站开发者只要在post请求之前检查referer就可以,但是由于referer是由浏览器提供的.虽然http协议有要求不能篡改referer的值.但是一个网站的安全性绝对不能交由其他人员来保证.  
 
 >token 验证  
 >从上面的样式可以发现,攻击者伪造了转账的表单,那么网站可以在表单中加入了一个随机的token来验证.token随着其他请求数据一起被提交到服务器.服务器通过验证token的值来判断post请求是否合法.由于攻击者没有办法获取到页面信息,所以它没有办法知道token的值.那么伪造的表单中就没有该token值.服务器就可以判断出这个请求是伪造的.
