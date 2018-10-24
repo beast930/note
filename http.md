@@ -114,8 +114,11 @@ Set-Cookie: jwt=lll.zzz.xxx; HttpOnly; max-age=980000; domain=.taobao.com
 [摘自](http://blog.leapoahead.com/2015/09/07/user-authentication-with-jwt/)
 
 ### CSRF攻击
+#### 攻击流程
 1.浏览正常的网站,信息存放在cookie中 用户验证登陆  
 2.点击了不正常网站链接跳转不正常网站,不正常网站中有一个链接是提交数据给之前用户验证登陆的网站的  
-3.用户点击不正常网站中的链接, 跳转到正常网站,期间携带了正常网站的验证信息与不正常网站的数据,正常网站识别不出
+3.用户点击不正常网站中的链接, 跳转到正常网站,期间携带了正常网站的验证信息与不正常网站的数据,正常网站识别不出  
+#### 攻击防范 token&referer
+
 
 
