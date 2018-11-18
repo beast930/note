@@ -10,3 +10,18 @@ public function hasManyThrough($related, $through, $firstKey = null, $secondKey 
 
 select related.*, though.A form related inner join though on through.D = related.B where through.A in (....);
 ```
+### 关于中间表
+```
+$roles = User::find(1)->role;
+foreach($roles as $role) {
+  $role->piovt
+}
+
+$rolesArr = $role->toArray();
+$rolesArr['pivot']['...']
+
+User::find(1)->role()->wherePivot(中间表的条件筛选)->get();
+
+//中间表的添加数据
+User::find(1)->role()->attach([id数组]或对象)
+```
