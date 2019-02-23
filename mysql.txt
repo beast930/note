@@ -1,0 +1,39 @@
+explain 关键字
+select_type: SELECT 查询的类型.最常见的查询类别应该是 SIMPLE
+
+type: join 类型
+通常来说, 不同的 type 类型的性能关系如下:
+ALL < index < range ~ index_merge < ref < eq_ref < const < system
+扫描表 < 扫描索引 < 范围访问 < 针对于非唯一或非主键索引等的join查询 < 唯一或主键的join查询 < 单值访问 
+
+possible_keys: 此次查询中可能选用的索引
+key: 此次查询中确切使用到的索引.
+ref: 哪个字段或常数与 key 一起被使用
+rows: 显示此查询一共扫描了多少行. 这个是一个估计值.
+extra: 额外的信息(using index / using where / using filesort等)
+
+使用where从好到坏:
+1.在索引中使用where条件。
+2.使用索引覆盖扫描。在extra中出现using index
+索引条目通常远小于数据行大小，如果只读取索引，MySQL就会极大地减少数据访问量。
+3.从数据表返回数据.不使用索引 extra中出现using where
+
+优化where语句:
+1.使用索引覆盖扫描。
+2.改变库表结构。
+3.重写复杂查询。
+
+重写复杂查询:
+1.切分查询。
+2.分解关联查询。
+
+优化sql
+1.count(*)获得表地行数(count(列)有可能只获得该列不含null的行数)
+简单的count优化:
+select count(*) from t where a>5;可以优化成: select (select count(*) from t) - count(*) from t where a<=5;(减少扫描行数)
+计算返回颜色的个数:
+select count(if(color='red', 1, 0)) as red, count(if(color='blue', 1, 0)) as blue from t;
+优化关联查询:
+确保on子句的列上有索引;
+确保group by 或 order by只涉及一个表的列
+优化子查询:使用关联查询代替.
