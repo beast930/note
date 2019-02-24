@@ -37,3 +37,10 @@ select count(if(color='red', 1, 0)) as red, count(if(color='blue', 1, 0)) as blu
 确保on子句的列上有索引;
 确保group by 或 order by只涉及一个表的列
 优化子查询:使用关联查询代替.
+优化limit:
+原先是select id, a,b,c from t order by d limit 1000, 2;
+优化后是select id, a,b,c from t inner join (select t.id from t order by d limit 1000, 2) as m using(id);
+获取需要访问的记录后再根据关联列回原表查询需要的所有列.
+
+第一次是select * from t order by id desc limit 20;返回最后一条的id是60,则
+之后可以 select * from t where id < 60 order by id desc limit 20;
