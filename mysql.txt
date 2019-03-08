@@ -44,3 +44,7 @@ select count(if(color='red', 1, 0)) as red, count(if(color='blue', 1, 0)) as blu
 
 第一次是select * from t order by id desc limit 20;返回最后一条的id是60,则
 之后可以 select * from t where id < 60 order by id desc limit 20;
+
+分而治之
+可以将一个复杂的sql语句转化为多个简单的sql语句。使用unique连接。
+面对多个重复的sql语句，可以用代码生成器来生成多个语句。(使用concat函数)
