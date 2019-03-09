@@ -59,3 +59,5 @@ sql语句的in 可以 where 'user_name' in (username, alias, ....) in前面是�
 2NF:非主属性不部分依赖于候选码
 例如 只有a,b能确定所有属性,则(a,b)为候选码, 但b->非主属性c, 则不是第二范式
 3NF:非主属性不传递依赖于候选码
+
+日期:一般优先选择int类型,次之date, 再次char(10),再次varchar 
