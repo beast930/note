@@ -56,3 +56,9 @@ use Foo\Bar\Tool\Request调用NS。
 classmap
 当一个类的名字为Zizaco\Entrust\MigrationCommand时, 我们找到它所在的位置是"src/commands/MigrationCommand.php", 则可将使用
 "classmap": ["src/commands"],使得Zizaco\Entrust\MigrationCommand => src/commands/MigrationCommand.php
+
+.gitignore文件是表明哪个文件不需要上传到版本管理
+
+开发应用程序要提交 composer.lock 文件到 git 版本库中
+开发库要把 composer.lock 文件添加到 .gitignore 文件中
+假如在衍合过程中 composer.lock 遇到合并冲突又当如何呢？ 使用主分支版本解决，这样仅仅修改 composer.json 文件即可（新增一个包）。然后运行 composer update --lock ，就会把 composer.json 文件的修改更新到 composer.lock 文件中。现在把已经更新的 composer.lock 文件提交到版本暂存区，然后继续衍合操作。
