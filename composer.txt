@@ -1,0 +1,58 @@
+安装依赖包
+获取定义的依赖到你的本地项目，只需要调用 composer.phar 运行 install 命令。
+
+php composer.phar install
+接着前面的例子，这将会找到 monolog/monolog 的最新版本，并将它下载到 vendor 目录。 这是一个惯例把第三方的代码到一个指定的目录 vendor。如果是 monolog 将会创建 vendor/monolog/monolog 目录。
+
+小技巧： 如果你正在使用Git来管理你的项目， 你可能要添加 vendor 到你的 .gitignore 文件中。 你不会希望将所有的代码都添加到你的版本库中。
+
+另一件事是 install 命令将创建一个 composer.lock 文件到你项目的根目录中。
+
+
+composer.lock - 锁文件
+在安装依赖后，Composer 将把安装时确切的版本号列表写入 composer.lock 文件。这将锁定改项目的特定版本。
+
+请提交你应用程序的 composer.lock （包括 composer.json）到你的版本库中
+
+这是非常重要的，因为 install 命令将会检查锁文件是否存在，如果存在，它将下载指定的版本（忽略 composer.json 文件中的定义）。
+
+这意味着，任何人建立项目都将下载与指定版本完全相同的依赖。你的持续集成服务器、生产环境、你团队中的其他开发人员、每件事、每个人都使用相同的依赖，从而减轻潜在的错误对部署的影响。即使你独自开发项目，在六个月内重新安装项目时，你也可以放心的继续工作，即使从那时起你的依赖已经发布了许多新的版本。
+
+如果不存在 composer.lock 文件，Composer 将读取 composer.json 并创建锁文件。
+
+这意味着如果你的依赖更新了新的版本，你将不会获得任何更新。此时要更新你的依赖版本请使用 update 命令。这将获取最新匹配的版本（根据你的 composer.json 文件）并将新版本更新进锁文件。
+
+php composer.phar update
+如果只想安装或更新一个依赖，你可以白名单它们：
+
+php composer.phar update monolog/monolog [...]
+********************************************************************************************
+autoload
+
+ "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
+        "psr-0": {
+            "PHPExcel": "Classes/"
+        }
+    },
+    
+psr4
+以上面为例,当使用use App\Http\Controllers\Controller时, 会将"App\\"转为"app/", 形成路径"app\Http\Controllers\Controller"找到控制器
+
+psr0
+以上面为例,当使用use PHPExcel_Cell_DataType时,先以目录为根,形成"Classes/PHPExcel", 将"_"转为"\", 得到"Classes\PHPExcel\Cell\DataType"路径
+
+psr0有更深的目录结构，比如定义了NS为 Foo\Bar=>vendor\foo\bar\src，
+use Foo\Bar\Tool\Request调用NS。
+如果以psr0方式加载，实际的目录为vendor\foo\bar\src\Foo\Bar\Tool\Request.php
+如果以psr4方式加载，实际目录为vendor\foo\bar\src\Tool\Request.php
+
+classmap
+当一个类的名字为Zizaco\Entrust\MigrationCommand时, 我们找到它所在的位置是"src/commands/MigrationCommand.php", 则可将使用
+"classmap": ["src/commands"],使得Zizaco\Entrust\MigrationCommand => src/commands/MigrationCommand.php
