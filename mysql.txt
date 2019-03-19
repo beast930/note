@@ -61,3 +61,9 @@ sql语句的in 可以 where 'user_name' in (username, alias, ....) in前面是�
 3NF:非主属性不传递依赖于候选码
 
 日期:一般优先选择int类型,次之date, 再次char(10),再次varchar 
+
+where与having区别
+where是根据表中已有的列进行筛选, having是对表中的数据处理过后再进行筛选
+WHERE clause allows a condition to use any table column, but it cannot use aliases or aggregate functions. HAVING clause allows a condition to use a selected (!) column, alias or an aggregate function.
+This is because WHERE clause filters data before select, but HAVING clause filters resulting data after select.
+So put the conditions in WHERE clause will be more efficient if you have many many rows in a table.
